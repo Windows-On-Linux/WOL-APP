@@ -1,0 +1,3 @@
+- Add more control on WINEPREFIX created for app
+- Add support for non-official repository
+- Refactor code
