@@ -11,10 +11,12 @@ mod downloadrepo;
 mod updaterepo;
 mod executescript;
 mod openapp;
+mod prefix;
+
 fn main() {
   let context = tauri::generate_context!();
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![initapp, read_dir, download_script, update_repo, execute_script, open_app])  
+    .invoke_handler(tauri::generate_handler![initapp, read_dir, download_script, update_repo, execute_script, open_app, cfg_prefix, open_app_in_prefix])  
     .menu(tauri::Menu::os_default(&context.package_info().name))
     .run(context)
     .expect("error while running tauri application");
@@ -52,4 +54,14 @@ fn execute_script(name: String) -> bool {
 #[tauri::command]
 fn open_app(path: String) -> bool {
   openapp::open(path)
+}
+
+#[tauri::command]
+fn cfg_prefix(prefix: &str) {
+  prefix::cfg(prefix);
+}
+
+#[tauri::command]
+fn open_app_in_prefix(path: &str, prefix: &str) {
+  prefix::open_app_in_prefix(path,prefix);
 }

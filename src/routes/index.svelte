@@ -1,11 +1,13 @@
 <script lang="ts">
+    import { dialogs } from 'svelte-dialogs';
     import { onMount } from 'svelte';
-    import { invoke } from '@tauri-apps/api/tauri'
+    import { invoke } from '@tauri-apps/api/tauri';
     import 'bootstrap/dist/css/bootstrap.css';
     import 'bootstrap/dist/js/bootstrap.js';
     import { readTextFile, BaseDirectory } from '@tauri-apps/api/fs';
     import Fa from 'svelte-fa/src/fa.svelte'
-    import { faPlay } from '@fortawesome/free-solid-svg-icons/index.es';
+    import { faPlay, faGear } from '@fortawesome/free-solid-svg-icons/index.es';
+    import Setting from './lib/setting.svelte';
     let dir: Array<object> = [];
     let dir2: Array<object> = [];
     onMount(async () => {
@@ -15,6 +17,7 @@
         dir2.push({
           name: await readTextFile(dir[i].path, { dir: BaseDirectory.Home }),
           startup: dir[i].startup,
+          prefix: dir[i].path.replace("name.txt", "")
         })
       }
       dir2 = dir2;
@@ -45,8 +48,11 @@
       <div class="ms-2 me-auto">
         <div class="fw-bold">{app.name}</div>
       </div>
-      <span class="" on:click={() => invoke('open_app', {path: app.startup})}>
+      <span class="" on:click={() => invoke('open_app', {path: app.startup})} style="margin-right: 10px;">
         <Fa icon={faPlay} color="green"/>
+      </span>
+      <span class="" on:click={() => dialogs.modal(Setting, {prefix: app.prefix})}>
+        <Fa icon={faGear} color="green"/>
       </span>
     </li>
   {/each}
