@@ -20,7 +20,7 @@
 </script>
 <p>Run application in Wineprefix</p>
 <div class="d-flex justify-content-center">
-    <button class="btn btn-primary" on:click={select}>Browse file</button>
+    <button class="btn btn-primary" on:click={select}>Open app in prefix</button>
 </div>
 <br/>
 <div class="d-flex justify-content-center">
